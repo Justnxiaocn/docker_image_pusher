@@ -1,0 +1,47 @@
+name: Sync Images to Aliyun
+
+on:
+  workflow_dispatch: # 手动触发
+  schedule:
+    - cron: '0 2 * * 0' # 每周日凌晨2点自动同步
+
+env:
+  ALIYUN_REGISTRY: crpi-bu81i2sck83t8ml8.cn-hangzhou.personal.cr.aliyuncs.com
+
+jobs:
+  sync-images:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Login to Aliyun Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ${{ env.ALIYUN_REGISTRY }}
+        username: ${{ secrets.ALIYUN_USERNAME }}
+        password: ${{ secrets.ALIYUN_PASSWORD }}
+
+    - name: Sync Kubernetes official images
+      run: |
+        # 同步Kubernetes核心组件
+        ./scripts/sync-image.sh registry.k8s.io/kube-apiserver:v1.27.3 ${{ env.ALIYUN_REGISTRY }}/k8s_official/kube-apiserver:v1.27.3
+        ./scripts/sync-image.sh registry.k8s.io/kube-controller-manager:v1.27.3 ${{ env.ALIYUN_REGISTRY }}/k8s_official/kube-controller-manager:v1.27.3
+        ./scripts/sync-image.sh registry.k8s.io/kube-scheduler:v1.27.3 ${{ env.ALIYUN_REGISTRY }}/k8s_official/kube-scheduler:v1.27.3
+        ./scripts/sync-image.sh registry.k8s.io/kube-proxy:v1.27.3 ${{ env.ALIYUN_REGISTRY }}/k8s_official/kube-proxy:v1.27.3
+        ./scripts/sync-image.sh registry.k8s.io/pause:3.9 ${{ env.ALIYUN_REGISTRY }}/k8s_official/pause:3.9
+        ./scripts/sync-image.sh registry.k8s.io/coredns:1.10.1 ${{ env.ALIYUN_REGISTRY }}/k8s_official/coredns:1.10.1
+        ./scripts/sync-image.sh registry.k8s.io/etcd:3.5.7-0 ${{ env.ALIYUN_REGISTRY }}/k8s_official/etcd:3.5.7-0
+
+    - name: Sync ecosystem images
+      run: |
+        # 同步常用生态工具
+        ./scripts/sync-image.sh nginx/nginx-ingress-controller:1.8.0 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/nginx-ingress:1.8.0
+        ./scripts/sync-image.sh registry.k8s.io/metrics-server/metrics-server:v0.6.3 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/metrics-server:v0.6.3
+        ./scripts/sync-image.sh prom/prometheus:v2.44.0 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/prometheus:v2.44.0
+        ./scripts/sync-image.sh grafana/grafana:9.5.2 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/grafana:9.5.2
+        ./scripts/sync-image.sh bitnami/redis:7.0.11 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/redis:7.0.11
+
+    - name: Clean up
+      run: |
+        docker system prune -f
