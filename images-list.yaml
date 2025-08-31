@@ -1,0 +1,61 @@
+version: "1.0"
+sync_date: "2023-11-10"
+
+k8s_official:
+  - name: "kube-apiserver"
+    source: "registry.k8s.io/kube-apiserver:v1.27.3"
+    target: "k8s_official/kube-apiserver:v1.27.3"
+  
+  - name: "kube-controller-manager"
+    source: "registry.k8s.io/kube-controller-manager:v1.27.3"
+    target: "k8s_official/kube-controller-manager:v1.27.3"
+  
+  - name: "kube-scheduler"
+    source: "registry.k8s.io/kube-scheduler:v1.27.3"
+    target: "k8s_official/kube-scheduler:v1.27.3"
+  
+  - name: "kube-proxy"
+    source: "registry.k8s.io/kube-proxy:v1.27.3"
+    target: "k8s_official/kube-proxy:v1.27.3"
+  
+  - name: "pause"
+    source: "registry.k8s.io/pause:3.9"
+    target: "k8s_official/pause:3.9"
+  
+  - name: "coredns"
+    source: "registry.k8s.io/coredns:1.10.1"
+    target: "k8s_official/coredns:1.10.1"
+  
+  - name: "etcd"
+    source: "registry.k8s.io/etcd:3.5.7-0"
+    target: "k8s_official/etcd:3.5.7-0"
+
+k8s_ecosystem:
+  - name: "nginx-ingress"
+    source: "nginx/nginx-ingress-controller:1.8.0"
+    target: "k8s_ecosystem/nginx-ingress:1.8.0"
+  
+  - name: "metrics-server"
+    source: "registry.k8s.io/metrics-server/metrics-server:v0.6.3"
+    target: "k8s_ecosystem/metrics-server:v0.6.3"
+  
+  - name: "prometheus"
+    source: "prom/prometheus:v2.44.0"
+    target: "k8s_ecosystem/prometheus:v2.44.0"
+  
+  - name: "grafana"
+    source: "grafana/grafana:9.5.2"
+    target: "k8s_ecosystem/grafana:9.5.2"
+  
+  - name: "redis"
+    source: "bitnami/redis:7.0.11"
+    target: "k8s_ecosystem/redis:7.0.11"
+
+k8s_app_images:
+  - name: "example-backend"
+    source: "library/nginx:1.25.2"
+    target: "k8s_app_images/backend:1.0.0"
+  
+  - name: "example-frontend"
+    source: "library/node:18.16.0"
+    target: "k8s_app_images/frontend:1.0.0"
