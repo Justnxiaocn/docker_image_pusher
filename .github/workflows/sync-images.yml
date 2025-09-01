@@ -11,6 +11,7 @@ env:
 jobs:
   sync-images:
     runs-on: ubuntu-latest
+    environment: aliyun-sync-env
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
