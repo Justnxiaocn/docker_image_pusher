@@ -19,6 +19,9 @@ jobs:
     - name: Make scripts executable
       run: chmod +x ./scripts/sync-image.sh
 
+    - name: Debug: Check script permissions
+      run: ls -l ./scripts/sync-image.sh
+    
     - name: Login to Aliyun Container Registry
       uses: docker/login-action@v2
       with:
