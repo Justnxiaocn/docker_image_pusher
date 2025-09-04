@@ -37,7 +37,7 @@ jobs:
         ./scripts/sync-image.sh registry.k8s.io/kube-scheduler:v1.27.3 ${{ env.ALIYUN_REGISTRY }}/k8s_official/kube-scheduler:v1.27.3
         ./scripts/sync-image.sh registry.k8s.io/kube-proxy:v1.27.3 ${{ env.ALIYUN_REGISTRY }}/k8s_official/kube-proxy:v1.27.3
         ./scripts/sync-image.sh registry.k8s.io/pause:3.9 ${{ env.ALIYUN_REGISTRY }}/k8s_official/pause:3.9
-        ./scripts/sync-image.sh registry.k8s.io/coredns:v1.10.1 ${{ env.ALIYUN_REGISTRY }}/k8s_official/coredns:1.10.1
+        ./scripts/sync-image.sh coredns/coredns:1.10.1 ${{ env.ALIYUN_REGISTRY }}/k8s_official/coredns:1.10.1
         ./scripts/sync-image.sh registry.k8s.io/etcd:3.5.7-0 ${{ env.ALIYUN_REGISTRY }}/k8s_official/etcd:3.5.7-0
 
     - name: Sync ecosystem images
