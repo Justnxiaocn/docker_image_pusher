@@ -31,23 +31,105 @@ jobs:
 
     - name: Sync Kubernetes official images
       run: |
-        # 同步Kubernetes核心组件
-        ./scripts/sync-image.sh registry.k8s.io/kube-apiserver:v1.27.3 ${{ env.ALIYUN_REGISTRY }}/k8s_official/kube-apiserver:v1.27.3
-        ./scripts/sync-image.sh registry.k8s.io/kube-controller-manager:v1.27.3 ${{ env.ALIYUN_REGISTRY }}/k8s_official/kube-controller-manager:v1.27.3
-        ./scripts/sync-image.sh registry.k8s.io/kube-scheduler:v1.27.3 ${{ env.ALIYUN_REGISTRY }}/k8s_official/kube-scheduler:v1.27.3
-        ./scripts/sync-image.sh registry.k8s.io/kube-proxy:v1.27.3 ${{ env.ALIYUN_REGISTRY }}/k8s_official/kube-proxy:v1.27.3
-        ./scripts/sync-image.sh registry.k8s.io/pause:3.9 ${{ env.ALIYUN_REGISTRY }}/k8s_official/pause:3.9
-        ./scripts/sync-image.sh coredns/coredns:1.10.1 ${{ env.ALIYUN_REGISTRY }}/k8s_official/coredns:1.10.1
-        ./scripts/sync-image.sh registry.k8s.io/etcd:3.5.7-0 ${{ env.ALIYUN_REGISTRY }}/k8s_official/etcd:3.5.7-0
+        # 同步Kubernetes核心组件（先检查镜像是否已存在）
+        # 1. kube-apiserver
+        if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_official/kube-apiserver:v1.27.3 >/dev/null 2>&1; then
+          echo "🔍 目标镜像不存在，开始同步 registry.k8s.io/kube-apiserver:v1.27.3"
+          ./scripts/sync-image.sh registry.k8s.io/kube-apiserver:v1.27.3 ${{ env.ALIYUN_REGISTRY }}/k8s_official/kube-apiserver:v1.27.3
+        else
+          echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_official/kube-apiserver:v1.27.3"
+        fi
+
+        # 2. kube-controller-manager
+        if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_official/kube-controller-manager:v1.27.3 >/dev/null 2>&1; then
+          echo "🔍 目标镜像不存在，开始同步 registry.k8s.io/kube-controller-manager:v1.27.3"
+          ./scripts/sync-image.sh registry.k8s.io/kube-controller-manager:v1.27.3 ${{ env.ALIYUN_REGISTRY }}/k8s_official/kube-controller-manager:v1.27.3
+        else
+          echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_official/kube-controller-manager:v1.27.3"
+        fi
+
+        # 3. kube-scheduler
+        if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_official/kube-scheduler:v1.27.3 >/dev/null 2>&1; then
+          echo "🔍 目标镜像不存在，开始同步 registry.k8s.io/kube-scheduler:v1.27.3"
+          ./scripts/sync-image.sh registry.k8s.io/kube-scheduler:v1.27.3 ${{ env.ALIYUN_REGISTRY }}/k8s_official/kube-scheduler:v1.27.3
+        else
+          echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_official/kube-scheduler:v1.27.3"
+        fi
+
+        # 4. kube-proxy
+        if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_official/kube-proxy:v1.27.3 >/dev/null 2>&1; then
+          echo "🔍 目标镜像不存在，开始同步 registry.k8s.io/kube-proxy:v1.27.3"
+          ./scripts/sync-image.sh registry.k8s.io/kube-proxy:v1.27.3 ${{ env.ALIYUN_REGISTRY }}/k8s_official/kube-proxy:v1.27.3
+        else
+          echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_official/kube-proxy:v1.27.3"
+        fi
+
+        # 5. pause
+        if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_official/pause:3.9 >/dev/null 2>&1; then
+          echo "🔍 目标镜像不存在，开始同步 registry.k8s.io/pause:3.9"
+          ./scripts/sync-image.sh registry.k8s.io/pause:3.9 ${{ env.ALIYUN_REGISTRY }}/k8s_official/pause:3.9
+        else
+          echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_official/pause:3.9"
+        fi
+
+        # 6. coredns
+        if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_official/coredns:1.10.1 >/dev/null 2>&1; then
+          echo "🔍 目标镜像不存在，开始同步 coredns/coredns:1.10.1"
+          ./scripts/sync-image.sh coredns/coredns:1.10.1 ${{ env.ALIYUN_REGISTRY }}/k8s_official/coredns:1.10.1
+        else
+          echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_official/coredns:1.10.1"
+        fi
+
+        # 7. etcd
+        if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_official/etcd:3.5.7-0 >/dev/null 2>&1; then
+          echo "🔍 目标镜像不存在，开始同步 registry.k8s.io/etcd:3.5.7-0"
+          ./scripts/sync-image.sh registry.k8s.io/etcd:3.5.7-0 ${{ env.ALIYUN_REGISTRY }}/k8s_official/etcd:3.5.7-0
+        else
+          echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_official/etcd:3.5.7-0"
+        fi
 
     - name: Sync ecosystem images
       run: |
-        # 同步常用生态工具
-        ./scripts/sync-image.sh ingress-nginx/controller:v1.8.0 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/nginx-ingress:1.8.0
-        ./scripts/sync-image.sh registry.k8s.io/metrics-server/metrics-server:v0.6.3 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/metrics-server:v0.6.3
-        ./scripts/sync-image.sh prom/prometheus:v2.44.0 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/prometheus:v2.44.0
-        ./scripts/sync-image.sh grafana/grafana:9.5.2 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/grafana:9.5.2
-        ./scripts/sync-image.sh bitnami/redis:7.0.11 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/redis:7.0.11
+        # 同步常用生态工具（先检查镜像是否已存在）
+        # 1. nginx-ingress
+        if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/nginx-ingress:1.8.0 >/dev/null 2>&1; then
+          echo "🔍 目标镜像不存在，开始同步 ingress-nginx/controller:v1.8.0"
+          ./scripts/sync-image.sh ingress-nginx/controller:v1.8.0 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/nginx-ingress:1.8.0
+        else
+          echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/nginx-ingress:1.8.0"
+        fi
+
+        # 2. metrics-server
+        if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/metrics-server:v0.6.3 >/dev/null 2>&1; then
+          echo "🔍 目标镜像不存在，开始同步 registry.k8s.io/metrics-server/metrics-server:v0.6.3"
+          ./scripts/sync-image.sh registry.k8s.io/metrics-server/metrics-server:v0.6.3 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/metrics-server:v0.6.3
+        else
+          echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/metrics-server:v0.6.3"
+        fi
+
+        # 3. prometheus
+        if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/prometheus:v2.44.0 >/dev/null 2>&1; then
+          echo "🔍 目标镜像不存在，开始同步 prom/prometheus:v2.44.0"
+          ./scripts/sync-image.sh prom/prometheus:v2.44.0 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/prometheus:v2.44.0
+        else
+          echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/prometheus:v2.44.0"
+        fi
+
+        # 4. grafana
+        if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/grafana:9.5.2 >/dev/null 2>&1; then
+          echo "🔍 目标镜像不存在，开始同步 grafana/grafana:9.5.2"
+          ./scripts/sync-image.sh grafana/grafana:9.5.2 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/grafana:9.5.2
+        else
+          echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/grafana:9.5.2"
+        fi
+
+        # 5. redis
+        if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/redis:7.0.11 >/dev/null 2>&1; then
+          echo "🔍 目标镜像不存在，开始同步 bitnami/redis:7.0.11"
+          ./scripts/sync-image.sh bitnami/redis:7.0.11 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/redis:7.0.11
+        else
+          echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/redis:7.0.11"
+        fi
 
     - name: Clean up
       run: |
