@@ -43,7 +43,7 @@ jobs:
     - name: Sync ecosystem images
       run: |
         # 同步常用生态工具
-        ./scripts/sync-image.sh nginx/nginx-ingress-controller:1.8.0 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/nginx-ingress:1.8.0
+        ./scripts/sync-image.sh ingress-nginx/controller:v1.8.0 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/nginx-ingress:1.8.0
         ./scripts/sync-image.sh registry.k8s.io/metrics-server/metrics-server:v0.6.3 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/metrics-server:v0.6.3
         ./scripts/sync-image.sh prom/prometheus:v2.44.0 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/prometheus:v2.44.0
         ./scripts/sync-image.sh grafana/grafana:9.5.2 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/grafana:9.5.2
