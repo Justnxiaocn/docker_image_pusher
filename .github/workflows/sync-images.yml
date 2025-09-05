@@ -106,11 +106,11 @@ jobs:
         timeout_minutes: 15
         command: |
           # 1. nginx-ingress
-          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/nginx-ingress:1.8.0 >/dev/null 2>&1; then
-            echo "🔍 目标镜像不存在，开始同步 ingress-nginx/controller:v1.8.0"
-            ./scripts/sync-image.sh ingress-nginx/controller:v1.8.0 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/nginx-ingress:1.8.0
+          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/nginx-ingress:1.8.2 >/dev/null 2>&1; then
+            echo "🔍 目标镜像不存在，开始同步 ingress-nginx/controller:v1.8.2"
+            ./scripts/sync-image.sh ingress-nginx/controller:v1.8.2 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/nginx-ingress:1.8.2
           else
-            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/nginx-ingress:1.8.0"
+            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/nginx-ingress:1.8.2"
           fi
 
           # 2. metrics-server
