@@ -107,8 +107,8 @@ jobs:
         command: |
           # 1. nginx-ingress
           if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/nginx-ingress:1.8.2 >/dev/null 2>&1; then
-            echo "🔍 目标镜像不存在，开始同步  k8s.gcr.io/ingress-nginx/controller:v1.8.2"
-            ./scripts/sync-image.sh  k8s.gcr.io/ingress-nginx/controller:v1.8.2 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/nginx-ingress:1.8.2
+            echo "🔍 目标镜像不存在，开始同步 k8s.gcr.io/ingress-nginx/controller:v1.8.2"
+            ./scripts/sync-image.sh k8s.gcr.io/ingress-nginx/controller:v1.8.2 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/nginx-ingress:1.8.2
           else
             echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/nginx-ingress:1.8.2"
           fi
@@ -143,6 +143,173 @@ jobs:
             ./scripts/sync-image.sh bitnami/redis:7.0.11 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/redis:7.0.11
           else
             echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/redis:7.0.11"
+          fi
+
+          # 6. MetalLB Controller
+          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/metallb-controller:v0.13.12 >/dev/null 2>&1; then
+            echo "🔍 目标镜像不存在，开始同步 metallb/controller:v0.13.12"
+            ./scripts/sync-image.sh metallb/controller:v0.13.12 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/metallb-controller:v0.13.12
+          else
+            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/metallb-controller:v0.13.12"
+          fi
+
+          # 7. MetalLB Speaker
+          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/metallb-speaker:v0.13.12 >/dev/null 2>&1; then
+            echo "🔍 目标镜像不存在，开始同步 metallb/speaker:v0.13.12"
+            ./scripts/sync-image.sh metallb/speaker:v0.13.12 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/metallb-speaker:v0.13.12
+          else
+            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/metallb-speaker:v0.13.12"
+          fi
+
+          # 8. cert-manager
+          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/cert-manager-controller:v1.12.2 >/dev/null 2>&1; then
+            echo "🔍 目标镜像不存在，开始同步 quay.io/jetstack/cert-manager-controller:v1.12.2"
+            ./scripts/sync-image.sh quay.io/jetstack/cert-manager-controller:v1.12.2 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/cert-manager-controller:v1.12.2
+          else
+            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/cert-manager-controller:v1.12.2"
+          fi
+
+          # 9. cert-manager-cainjector
+          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/cert-manager-cainjector:v1.12.2 >/dev/null 2>&1; then
+            echo "🔍 目标镜像不存在，开始同步 quay.io/jetstack/cert-manager-cainjector:v1.12.2"
+            ./scripts/sync-image.sh quay.io/jetstack/cert-manager-cainjector:v1.12.2 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/cert-manager-cainjector:v1.12.2
+          else
+            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/cert-manager-cainjector:v1.12.2"
+          fi
+
+          # 10. cert-manager-webhook
+          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/cert-manager-webhook:v1.12.2 >/dev/null 2>&1; then
+            echo "🔍 目标镜像不存在，开始同步 quay.io/jetstack/cert-manager-webhook:v1.12.2"
+            ./scripts/sync-image.sh quay.io/jetstack/cert-manager-webhook:v1.12.2 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/cert-manager-webhook:v1.12.2
+          else
+            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/cert-manager-webhook:v1.12.2"
+          fi
+
+          # 11. dashboard
+          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/dashboard:v2.7.0 >/dev/null 2>&1; then
+            echo "🔍 目标镜像不存在，开始同步 kubernetesui/dashboard:v2.7.0"
+            ./scripts/sync-image.sh kubernetesui/dashboard:v2.7.0 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/dashboard:v2.7.0
+          else
+            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/dashboard:v2.7.0"
+          fi
+
+          # 12. dashboard-metrics-scraper
+          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/dashboard-metrics-scraper:v1.0.8 >/dev/null 2>&1; then
+            echo "🔍 目标镜像不存在，开始同步 kubernetesui/metrics-scraper:v1.0.8"
+            ./scripts/sync-image.sh kubernetesui/metrics-scraper:v1.0.8 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/dashboard-metrics-scraper:v1.0.8
+          else
+            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/dashboard-metrics-scraper:v1.0.8"
+          fi
+
+          # 13. fluentd
+          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/fluentd:v1.16.1 >/dev/null 2>&1; then
+            echo "🔍 目标镜像不存在，开始同步 fluent/fluentd:v1.16.1"
+            ./scripts/sync-image.sh fluent/fluentd:v1.16.1 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/fluentd:v1.16.1
+          else
+            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/fluentd:v1.16.1"
+          fi
+
+          # 14. elasticsearch
+          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/elasticsearch:7.17.10 >/dev/null 2>&1; then
+            echo "🔍 目标镜像不存在，开始同步 docker.elastic.co/elasticsearch/elasticsearch:7.17.10"
+            ./scripts/sync-image.sh docker.elastic.co/elasticsearch/elasticsearch:7.17.10 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/elasticsearch:7.17.10
+          else
+            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/elasticsearch:7.17.10"
+          fi
+
+          # 15. kibana
+          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/kibana:7.17.10 >/dev/null 2>&1; then
+            echo "🔍 目标镜像不存在，开始同步 docker.elastic.co/kibana/kibana:7.17.10"
+            ./scripts/sync-image.sh docker.elastic.co/kibana/kibana:7.17.10 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/kibana:7.17.10
+          else
+            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/kibana:7.17.10"
+          fi
+
+          # 16. nfs-subdir-external-provisioner
+          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/nfs-subdir-external-provisioner:v4.0.2 >/dev/null 2>&1; then
+            echo "🔍 目标镜像不存在，开始同步 k8s.gcr.io/sig-storage/nfs-subdir-external-provisioner:v4.0.2"
+            ./scripts/sync-image.sh k8s.gcr.io/sig-storage/nfs-subdir-external-provisioner:v4.0.2 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/nfs-subdir-external-provisioner:v4.0.2
+          else
+            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/nfs-subdir-external-provisioner:v4.0.2"
+          fi
+
+          # 17. csi-node-driver-registrar
+          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/csi-node-driver-registrar:v2.8.0 >/dev/null 2>&1; then
+            echo "🔍 目标镜像不存在，开始同步 registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.8.0"
+            ./scripts/sync-image.sh registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.8.0 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/csi-node-driver-registrar:v2.8.0
+          else
+            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/csi-node-driver-registrar:v2.8.0"
+          fi
+
+          # 18. calico-node
+          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/calico-node:v3.26.1 >/dev/null 2>&1; then
+            echo "🔍 目标镜像不存在，开始同步 docker.io/calico/node:v3.26.1"
+            ./scripts/sync-image.sh docker.io/calico/node:v3.26.1 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/calico-node:v3.26.1
+          else
+            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/calico-node:v3.26.1"
+          fi
+
+          # 19. calico-cni
+          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/calico-cni:v3.26.1 >/dev/null 2>&1; then
+            echo "🔍 目标镜像不存在，开始同步 docker.io/calico/cni:v3.26.1"
+            ./scripts/sync-image.sh docker.io/calico/cni:v3.26.1 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/calico-cni:v3.26.1
+          else
+            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/calico-cni:v3.26.1"
+          fi
+
+          # 20. calico-kube-controllers
+          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/calico-kube-controllers:v3.26.1 >/dev/null 2>&1; then
+            echo "🔍 目标镜像不存在，开始同步 docker.io/calico/kube-controllers:v3.26.1"
+            ./scripts/sync-image.sh docker.io/calico/kube-controllers:v3.26.1 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/calico-kube-controllers:v3.26.1
+          else
+            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/calico-kube-controllers:v3.26.1"
+          fi
+
+    - name: Sync application images
+      uses: nick-fields/retry@v2
+      with:
+        max_attempts: 3
+        retry_on: error,timeout
+        timeout_minutes: 15
+        command: |
+          # 1. mysql
+          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_app_images/mysql:8.0 >/dev/null 2>&1; then
+            echo "🔍 目标镜像不存在，开始同步 mysql:8.0"
+            ./scripts/sync-image.sh mysql:8.0 ${{ env.ALIYUN_REGISTRY }}/k8s_app_images/mysql:8.0
+          else
+            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_app_images/mysql:8.0"
+          fi
+
+          # 2. nginx
+          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_app_images/nginx:1.25 >/dev/null 2>&1; then
+            echo "🔍 目标镜像不存在，开始同步 nginx:1.25"
+            ./scripts/sync-image.sh nginx:1.25 ${{ env.ALIYUN_REGISTRY }}/k8s_app_images/nginx:1.25
+          else
+            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_app_images/nginx:1.25"
+          fi
+
+          # 3. busybox
+          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_app_images/busybox:1.36 >/dev/null 2>&1; then
+            echo "🔍 目标镜像不存在，开始同步 busybox:1.36"
+            ./scripts/sync-image.sh busybox:1.36 ${{ env.ALIYUN_REGISTRY }}/k8s_app_images/busybox:1.36
+          else
+            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_app_images/busybox:1.36"
+          fi
+
+          # 4. alpine
+          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_app_images/alpine:3.18 >/dev/null 2>&1; then
+            echo "🔍 目标镜像不存在，开始同步 alpine:3.18"
+            ./scripts/sync-image.sh alpine:3.18 ${{ env.ALIYUN_REGISTRY }}/k8s_app_images/alpine:3.18
+          else
+            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_app_images/alpine:3.18"
+          fi
+
+          # 5. redis (应用版本)
+          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_app_images/redis:7.0.11 >/dev/null 2>&1; then
+            echo "🔍 目标镜像不存在，开始同步 redis:7.0.11"
+            ./scripts/sync-image.sh redis:7.0.11 ${{ env.ALIYUN_REGISTRY }}/k8s_app_images/redis:7.0.11
+          else
+            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_app_images/redis:7.0.11"
           fi
 
     - name: Clean up
