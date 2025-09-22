@@ -160,15 +160,7 @@ jobs:
           else
             echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/metallb-speaker:v0.13.12"
           fi
-          
-          # 添加 MetalLB speaker 镜像同步
-          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/mirrored-metallb-speaker:v0.13.12 >/dev/null 2>&1; then
-            echo "🔍 目标镜像不存在，开始同步 rancher/mirrored-metallb-speaker:v0.13.12"
-            ./scripts/sync-image.sh rancher/mirrored-metallb-speaker:v0.13.12 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/mirrored-metallb-speaker:v0.13.12
-          else
-            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/mirrored-metallb-speaker:v0.13.12"
-          fi
-
+                  
           # 8. cert-manager
           if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/cert-manager-controller:v1.12.2 >/dev/null 2>&1; then
             echo "🔍 目标镜像不存在，开始同步 quay.io/jetstack/cert-manager-controller:v1.12.2"
