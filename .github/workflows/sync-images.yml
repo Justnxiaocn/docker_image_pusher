@@ -264,6 +264,14 @@ jobs:
           else
             echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/calico-kube-controllers:v3.26.1"
           fi
+          
+          # 21. nginx:alpine
+          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/nginx:alpine >/dev/null 2>&1; then
+            echo "🔍 目标镜像不存在，开始同步 docker.io/nginx:alpine"
+            ./scripts/sync-image.sh docker.io/library/nginx:alpine ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/nginx:alpine
+          else
+            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/nginx:alpine"
+          fi
 
     - name: Sync application images
       uses: nick-fields/retry@v2
