@@ -121,6 +121,14 @@ jobs:
             echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/metrics-server:v0.6.3"
           fi
 
+          # 2.1 metrics-server
+          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/metrics-server:v0.8.0 >/dev/null 2>&1; then
+            echo "🔍 目标镜像不存在，开始同步 registry.k8s.io/metrics-server/metrics-server:v0.8.0"
+            ./scripts/sync-image.sh registry.k8s.io/metrics-server/metrics-server:v0.8.0 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/metrics-server:v0.8.0
+          else
+            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/metrics-server:v0.8.0"
+          fi
+
           # 3. prometheus
           if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_ecosystem/prometheus:v2.44.0 >/dev/null 2>&1; then
             echo "🔍 目标镜像不存在，开始同步 prom/prometheus:v2.44.0"
