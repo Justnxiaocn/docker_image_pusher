@@ -328,13 +328,7 @@ jobs:
             echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_app_images/redis:7.0.11"
           fi
 
-          # 6. openjdk (应用版本)
-          if ! docker manifest inspect ${{ env.ALIYUN_REGISTRY }}/k8s_app_images/openjdk:17-jdk-slim >/dev/null 2>&1; then
-            echo "🔍 目标镜像不存在，开始同步 openjdk:17-jdk-slim"
-            ./scripts/sync-image.sh openjdk:17-jdk-slim ${{ env.ALIYUN_REGISTRY }}/k8s_app_images/openjdk:17-jdk-slim
-          else
-            echo "✅ 目标镜像已存在，跳过同步 ${{ env.ALIYUN_REGISTRY }}/k8s_app_images/openjdk:17-jdk-slim"
-          fi
+        
 
 
     - name: Clean up
