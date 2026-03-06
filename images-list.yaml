@@ -59,3 +59,7 @@ k8s_app_images:
   - name: "example-frontend"
     source: "library/node:18.16.0"
     target: "k8s_app_images/frontend:1.0.0"
+
+  - name: "openjdk"
+    source: "openjdk:17-jdk-slim"
+    target: "k8s_app_images/openjdk:17-jdk-slim"
